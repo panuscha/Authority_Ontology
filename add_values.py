@@ -26,7 +26,7 @@ def add_work(row, work_objects):
 
     return work_objects
 
-def add_work_instances(row, instances_objects):
+def add_work_instances(row, instances_objects, relationship):
     """Adds WorkInstance object to list instances_objects
 
         Parameters
@@ -35,7 +35,10 @@ def add_work_instances(row, instances_objects):
             row with information about work instace
 
         instances_objects : list
-            list with instances - Work Instances object    
+            list with instances - Work Instances object 
+
+        relationship : boolean
+            True/False - add relationship essence or not       
 
         Returns
         ------
@@ -51,6 +54,9 @@ def add_work_instances(row, instances_objects):
     note = row['poznámka']
 
     instances_objects[id_number] = WorkInstance(id = id_number, work_id = id_number, title = title, author = author, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
+
+    if relationship: 
+        instances_objects[id_number].relationship_essence = row['kvalita vazby']
 
     return instances_objects
 
@@ -75,24 +81,38 @@ used = set()
 try:
 
     for i, row in df.iterrows():
+        
         horizontal = row['horizontální vazba (= patří do souboru díla)']
         relationship_essence = row['kvalita vazby'] 
+        vertical = row['vertikální vazba (=je součást čeho)']
+        id_number = row['číslo záznamu']
+
         if horizontal not in used:
+            
             add_work(row, work_objects)
-            add_work_instances(row, instances_objects)
-            id_number = row['číslo záznamu'] 
+            add_work_instances(row, instances_objects, False)
             print(id_number)
             used.add(id_number)
             work_objects[id_number].instances.append(instances_objects[id_number])
             session.add(work_objects[id_number])
             session.add(instances_objects[id_number])
-        
-            vertical = row['vertikální vazba (=je součást čeho)']
-            if vertical is not None:
-                if vertical in instances_objects:
-                    instances_association = WorkInstancesAssociation(is_part_of_id=vertical, has_id=id_number)
-                    session.add(instances_association)
-    #elif relationship_essence is not None:
+
+
+        elif not pd.isna(relationship_essence):
+            
+            id_number = row['číslo záznamu'] 
+            add_work_instances(row, instances_objects, True)
+            work_objects[horizontal].instances.append(instances_objects[id_number])
+
+        else: 
+            id_number = horizontal
+
+        if vertical is not None:
+            if vertical in instances_objects:
+                instances_association = WorkInstancesAssociation(is_part_of_id=vertical, has_id=id_number)
+                session.add(instances_association)
+
+
 except Exception as error: 
     print(error)
 finally:
