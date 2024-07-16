@@ -1,0 +1,72 @@
+// Interactive Data Models
+digraph {
+	graph [bgcolor="#EEEEEE" rankdir=TB splines=spline]
+	node [fontname=Roboto fontsize=12 shape=none]
+	edge [fontname=Roboto fontsize=10]
+	Work [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD COLSPAN="2" BGCOLOR="#3F51B5"><FONT COLOR="white">Work</FONT></TD></TR>
+        <TR>
+                         <TD BGCOLOR="#BBDEFB">id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER (PK)</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">original_title</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">original_author</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR></TABLE>> URL="http://Work_details.html"]
+	Work -> WorkInstance [label=instances color="#1E88E5" style=dashed tooltip="Relation between Work and WorkInstance"]
+	WorkInstance [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD COLSPAN="2" BGCOLOR="#3F51B5"><FONT COLOR="white">WorkInstance</FONT></TD></TR>
+        <TR>
+                         <TD BGCOLOR="#BBDEFB">id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER (PK)</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">work_id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">title</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">author</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">first_published</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">relationship</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">art_form</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">genre</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">sub_genre</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">note</TD>
+                         <TD BGCOLOR="#BBDEFB">VARCHAR ()</TD>
+                         </TR></TABLE>> URL="http://WorkInstance_details.html"]
+	WorkInstance -> Work [label=work color="#1E88E5" style=dashed tooltip="Relation between WorkInstance and Work"]
+	WorkInstance -> WorkInstance [label=has color="#1E88E5" style=dashed tooltip="Relation between WorkInstance and WorkInstance"]
+	WorkInstance -> WorkInstance [label=link color="#1E88E5" style=dashed tooltip="Relation between WorkInstance and WorkInstance"]
+	WorkInstance -> WorkInstance [label=is_part_of color="#1E88E5" style=dashed tooltip="Relation between WorkInstance and WorkInstance"]
+	WorkInstance -> WorkInstance [label=linked color="#1E88E5" style=dashed tooltip="Relation between WorkInstance and WorkInstance"]
+	WorkInstancesAssociation [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD COLSPAN="2" BGCOLOR="#3F51B5"><FONT COLOR="white">WorkInstancesAssociation</FONT></TD></TR>
+        <TR>
+                         <TD BGCOLOR="#BBDEFB">id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER (PK)</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">is_part_of_id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER ()</TD>
+                         </TR><TR>
+                         <TD BGCOLOR="#BBDEFB">has_id</TD>
+                         <TD BGCOLOR="#BBDEFB">INTEGER ()</TD>
+                         </TR></TABLE>> URL="http://WorkInstancesAssociation_details.html"]
+}
