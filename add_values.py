@@ -1,6 +1,7 @@
-from models import Work, WorkInstance, WorkInstancesAssociation, session
+from models import Work, Instance, InstancesHierarchy, session
 import pandas as pd 
 import math 
+import datetime
 
 def add_work(row, work_objects):
     """Adds Work object to list work_objects
@@ -26,7 +27,7 @@ def add_work(row, work_objects):
 
     return work_objects
 
-def add_work_instances(row, instances_objects, relationship):
+def add_instance(row, instances_objects, relationship):
     """Adds WorkInstance object to list instances_objects
 
         Parameters
@@ -52,8 +53,9 @@ def add_work_instances(row, instances_objects, relationship):
     genre = row['žánr']
     subgenre = row['subžánr']
     note = row['poznámka']
+    first_published = datetime.date(row['rok vydání'], 1, 1)
 
-    instances_objects[id_number] = WorkInstance(id = id_number, work_id = id_number, title = title, author = author, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
+    instances_objects[id_number] = Instance(id = id_number, work_id = id_number, title = title, author = author, first_published = first_published, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
 
     if relationship: 
         instances_objects[id_number].relationship_essence = row['kvalita vazby']
@@ -73,6 +75,7 @@ df = df.iloc[first_row:]
 df['číslo záznamu'] = df['číslo záznamu'].apply(lambda x: int(x)) 
 df['vertikální vazba (=je součást čeho)'] = df['vertikální vazba (=je součást čeho)'].apply(lambda x: None if math.isnan(x) else int(x)) 
 df['horizontální vazba (= patří do souboru díla)'] = df['horizontální vazba (= patří do souboru díla)'].apply(lambda x: None if math.isnan(x) else int(x)) 
+df['rok vydání'] = df['rok vydání'].ffill()
 
 work_objects = {}
 instances_objects = {}
@@ -90,7 +93,7 @@ try:
         if horizontal not in used:
             
             add_work(row, work_objects)
-            add_work_instances(row, instances_objects, False)
+            add_instance(row, instances_objects, False)
             print(id_number)
             used.add(id_number)
             work_objects[id_number].instances.append(instances_objects[id_number])
@@ -101,7 +104,7 @@ try:
         elif not pd.isna(relationship_essence):
             
             id_number = row['číslo záznamu'] 
-            add_work_instances(row, instances_objects, True)
+            add_instance(row, instances_objects, True)
             work_objects[horizontal].instances.append(instances_objects[id_number])
 
         else: 
@@ -109,7 +112,7 @@ try:
 
         if vertical is not None:
             if vertical in instances_objects:
-                instances_association = WorkInstancesAssociation(is_part_of_id=vertical, has_id=id_number)
+                instances_association = InstancesHierarchy(is_part_of_id=vertical, has_id=id_number)
                 session.add(instances_association)
 
 
@@ -123,8 +126,8 @@ finally:
 
     # # create values
     work1 = Work(id = 1000, original_title = 'Perlička na dně', original_author = 'Bohumil Hrabal')
-    work_instance1 = WorkInstance(id = 1000, work_id = 1, title = 'Perlička na dně', author = 'Bohumil Hrabal')
-    work_instance2 = WorkInstance(id = 2000, work_id = 1, title = 'Andělský voči', author = 'Bohumil Hrabal')
+    work_instance1 = Instance(id = 1000, work_id = 1, title = 'Perlička na dně', author = 'Bohumil Hrabal')
+    work_instance2 = Instance(id = 2000, work_id = 1, title = 'Andělský voči', author = 'Bohumil Hrabal')
 
     # # add to session
     session.add(work1)
@@ -132,7 +135,7 @@ finally:
     session.add(work_instance2)
     session.commit()
 
-    id11 = session.query(WorkInstance).filter_by(id = 1).first()
+    id11 = session.query(Instance).filter_by(id = 1).first()
     links = [instance.title for instance in id11.has]
     print(f"Instances: {', '.join(links)}")
 
