@@ -77,7 +77,6 @@ class Instance(Base):
         title (str, optional): Title of the first instance of the work 
         author (str, optional): Author of the first instance of the work 
 
-
     """
 
     # name of the table

@@ -36,13 +36,13 @@
 </a>
 </g>
 </g>
-<!-- WorkInstance -->
+<!-- Instance -->
 <g id="node2" class="node">
-<title>WorkInstance</title>
-<g id="a_node2"><a xlink:href="http://WorkInstance_details.html" xlink:title="&lt;TABLE&gt;">
+<title>Instance</title>
+<g id="a_node2"><a xlink:href="http://Instance_details.html" xlink:title="&lt;TABLE&gt;">
 <polygon fill="#3f51b5" stroke="none" points="9,-184 9,-202 180,-202 180,-184 9,-184"/>
 <polygon fill="none" stroke="black" points="9,-184 9,-202 180,-202 180,-184 9,-184"/>
-<text text-anchor="start" x="58.12" y="-187.6" font-family="Roboto" font-size="12.00" fill="white">WorkInstance</text>
+<text text-anchor="start" x="72" y="-187.6" font-family="Roboto" font-size="12.00" fill="white">Instance</text>
 <polygon fill="#bbdefb" stroke="none" points="9,-166 9,-184 93,-184 93,-166 9,-166"/>
 <polygon fill="none" stroke="black" points="9,-166 9,-184 93,-184 93,-166 9,-166"/>
 <text text-anchor="start" x="46.12" y="-169.6" font-family="Roboto" font-size="12.00">id</text>
@@ -72,7 +72,7 @@
 <text text-anchor="start" x="12" y="-97.6" font-family="Roboto" font-size="12.00">first_published</text>
 <polygon fill="#bbdefb" stroke="none" points="93,-94 93,-112 180,-112 180,-94 93,-94"/>
 <polygon fill="none" stroke="black" points="93,-94 93,-112 180,-112 180,-94 93,-94"/>
-<text text-anchor="start" x="101.62" y="-97.6" font-family="Roboto" font-size="12.00">VARCHAR ()</text>
+<text text-anchor="start" x="115.5" y="-97.6" font-family="Roboto" font-size="12.00">DATE ()</text>
 <polygon fill="#bbdefb" stroke="none" points="9,-76 9,-94 93,-94 93,-76 9,-76"/>
 <polygon fill="none" stroke="black" points="9,-76 9,-94 93,-94 93,-76 9,-76"/>
 <text text-anchor="start" x="19.88" y="-79.6" font-family="Roboto" font-size="12.00">relationship</text>
@@ -106,73 +106,73 @@
 </a>
 </g>
 </g>
-<!-- Work&#45;&gt;WorkInstance -->
+<!-- Work&#45;&gt;Instance -->
 <g id="edge1" class="edge">
-<title>Work&#45;&gt;WorkInstance</title>
-<g id="a_edge1"><a xlink:title="Relation between Work and WorkInstance">
+<title>Work&#45;&gt;Instance</title>
+<g id="a_edge1"><a xlink:title="Relation between Work and Instance">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M70.15,-253.43C67.41,-247.53 65.05,-241.36 63.5,-235.25 61.99,-229.29 61.11,-223.18 60.75,-217"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="64.25,-217.31 60.66,-207.35 57.25,-217.38 64.25,-217.31"/>
 </a>
 </g>
 <text text-anchor="middle" x="84.5" y="-225.75" font-family="Roboto" font-size="10.00">instances</text>
 </g>
-<!-- WorkInstance&#45;&gt;Work -->
+<!-- Instance&#45;&gt;Work -->
 <g id="edge2" class="edge">
-<title>WorkInstance&#45;&gt;Work</title>
-<g id="a_edge2"><a xlink:title="Relation between WorkInstance and Work">
+<title>Instance&#45;&gt;Work</title>
+<g id="a_edge2"><a xlink:title="Relation between Instance and Work">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M106.63,-205.77C106.73,-215.73 106.41,-225.69 105.5,-235.25 105.28,-237.56 105.01,-239.92 104.7,-242.3"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="101.27,-241.55 103.24,-251.96 108.19,-242.59 101.27,-241.55"/>
 </a>
 </g>
 <text text-anchor="middle" x="116" y="-225.75" font-family="Roboto" font-size="10.00">work</text>
 </g>
-<!-- WorkInstance&#45;&gt;WorkInstance -->
+<!-- Instance&#45;&gt;Instance -->
 <g id="edge3" class="edge">
-<title>WorkInstance&#45;&gt;WorkInstance</title>
-<g id="a_edge3"><a xlink:title="Relation between WorkInstance and WorkInstance">
+<title>Instance&#45;&gt;Instance</title>
+<g id="a_edge3"><a xlink:title="Relation between Instance and Instance">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M187.63,-108.1C198.74,-107.17 206,-105.47 206,-103 206,-101.53 203.44,-100.34 199.03,-99.41"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="199.5,-95.94 189.13,-98.1 198.58,-102.88 199.5,-95.94"/>
 </a>
 </g>
 <text text-anchor="middle" x="213.88" y="-99.12" font-family="Roboto" font-size="10.00">has</text>
 </g>
-<!-- WorkInstance&#45;&gt;WorkInstance -->
+<!-- Instance&#45;&gt;Instance -->
 <g id="edge4" class="edge">
-<title>WorkInstance&#45;&gt;WorkInstance</title>
-<g id="a_edge4"><a xlink:title="Relation between WorkInstance and WorkInstance">
+<title>Instance&#45;&gt;Instance</title>
+<g id="a_edge4"><a xlink:title="Relation between Instance and Instance">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M187.92,-114.57C208.78,-113.5 224,-109.65 224,-103 224,-97.6 213.95,-94.04 198.99,-92.33"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="199.68,-88.87 189.43,-91.56 199.11,-95.85 199.68,-88.87"/>
 </a>
 </g>
 <text text-anchor="middle" x="231.5" y="-99.12" font-family="Roboto" font-size="10.00">link</text>
 </g>
-<!-- WorkInstance&#45;&gt;WorkInstance -->
+<!-- Instance&#45;&gt;Instance -->
 <g id="edge5" class="edge">
-<title>WorkInstance&#45;&gt;WorkInstance</title>
-<g id="a_edge5"><a xlink:title="Relation between WorkInstance and WorkInstance">
+<title>Instance&#45;&gt;Instance</title>
+<g id="a_edge5"><a xlink:title="Relation between Instance and Instance">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M187.77,-120.8C217.99,-120.67 242,-114.73 242,-103 242,-92.78 223.78,-86.96 199.11,-85.54"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="199.38,-82.04 189.28,-85.24 199.17,-89.04 199.38,-82.04"/>
 </a>
 </g>
 <text text-anchor="middle" x="263.38" y="-99.12" font-family="Roboto" font-size="10.00">is_part_of</text>
 </g>
-<!-- WorkInstance&#45;&gt;WorkInstance -->
+<!-- Instance&#45;&gt;Instance -->
 <g id="edge6" class="edge">
-<title>WorkInstance&#45;&gt;WorkInstance</title>
-<g id="a_edge6"><a xlink:title="Relation between WorkInstance and WorkInstance">
+<title>Instance&#45;&gt;Instance</title>
+<g id="a_edge6"><a xlink:title="Relation between Instance and Instance">
 <path fill="none" stroke="#1e88e5" stroke-dasharray="5,2" d="M187.88,-125.98C237.75,-129.33 284.75,-121.67 284.75,-103 284.75,-85.75 244.64,-77.9 199.21,-79.45"/>
 <polygon fill="#1e88e5" stroke="#1e88e5" points="199.2,-75.95 189.39,-79.95 199.55,-82.94 199.2,-75.95"/>
 </a>
 </g>
 <text text-anchor="middle" x="297.5" y="-99.12" font-family="Roboto" font-size="10.00">linked</text>
 </g>
-<!-- WorkInstancesAssociation -->
+<!-- InstancesHierarchy -->
 <g id="node3" class="node">
-<title>WorkInstancesAssociation</title>
-<g id="a_node3"><a xlink:href="http://WorkInstancesAssociation_details.html" xlink:title="&lt;TABLE&gt;">
+<title>InstancesHierarchy</title>
+<g id="a_node3"><a xlink:href="http://InstancesHierarchy_details.html" xlink:title="&lt;TABLE&gt;">
 <polygon fill="#3f51b5" stroke="none" points="215.5,-311.25 215.5,-329.25 377.5,-329.25 377.5,-311.25 215.5,-311.25"/>
 <polygon fill="none" stroke="black" points="215.5,-311.25 215.5,-329.25 377.5,-329.25 377.5,-311.25 215.5,-311.25"/>
-<text text-anchor="start" x="226" y="-314.85" font-family="Roboto" font-size="12.00" fill="white">WorkInstancesAssociation</text>
+<text text-anchor="start" x="245.12" y="-314.85" font-family="Roboto" font-size="12.00" fill="white">InstancesHierarchy</text>
 <polygon fill="#bbdefb" stroke="none" points="215.5,-293.25 215.5,-311.25 290.5,-311.25 290.5,-293.25 215.5,-293.25"/>
 <polygon fill="none" stroke="black" points="215.5,-293.25 215.5,-311.25 290.5,-311.25 290.5,-293.25 215.5,-293.25"/>
 <text text-anchor="start" x="248.12" y="-296.85" font-family="Roboto" font-size="12.00">id</text>

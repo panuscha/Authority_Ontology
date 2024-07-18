@@ -90,6 +90,7 @@ try:
         vertical = row['vertikální vazba (=je součást čeho)']
         id_number = row['číslo záznamu']
 
+        # horizontal bond is not present 
         if horizontal not in used:
             
             add_work(row, work_objects)
@@ -100,7 +101,7 @@ try:
             session.add(work_objects[id_number])
             session.add(instances_objects[id_number])
 
-
+        # 
         elif not pd.isna(relationship_essence):
             
             id_number = row['číslo záznamu'] 
@@ -119,20 +120,6 @@ try:
 except Exception as error: 
     print(error)
 finally:
-    #print(list(work_objects.values()))
-    #session.bulk_save_objects(list(work_objects.values()))
-    #session.bulk_save_objects(list(instances_objects.values()))
-    
-
-    # # create values
-    work1 = Work(id = 1000, original_title = 'Perlička na dně', original_author = 'Bohumil Hrabal')
-    work_instance1 = Instance(id = 1000, work_id = 1, title = 'Perlička na dně', author = 'Bohumil Hrabal')
-    work_instance2 = Instance(id = 2000, work_id = 1, title = 'Andělský voči', author = 'Bohumil Hrabal')
-
-    # # add to session
-    session.add(work1)
-    session.add(work_instance1)
-    session.add(work_instance2)
     session.commit()
 
     id11 = session.query(Instance).filter_by(id = 1).first()
