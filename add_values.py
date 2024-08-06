@@ -3,7 +3,7 @@ import pandas as pd
 import math 
 import datetime
 
-def add_work(row, work_objects):
+def add_work(author, title, id_number):
     """Adds Work object to list work_objects
 
         Parameters
@@ -19,15 +19,11 @@ def add_work(row, work_objects):
         list
             work_objects with new element
         """
-    author = row['autor']
-    title = row['název']
-    id_number = row['číslo záznamu']
+    
+    return  Work(id = id_number, original_title = title, original_author = author)
 
-    work_objects[id_number] = Work(id = id_number, original_title = title, original_author = author)
 
-    return work_objects
-
-def add_instance(row, instances_objects, relationship):
+def add_instance(author = None, title = None, id_number = None , art_form = None, genre = None, subgenre = None, note = None, first_published = None,   relationship = False):
     """Adds WorkInstance object to list instances_objects
 
         Parameters
@@ -46,80 +42,86 @@ def add_instance(row, instances_objects, relationship):
         list
             instances_objects with new element
         """
-    author = row['autor']
-    title = row['název']
-    id_number = row['číslo záznamu']
-    art_form = row['umělecký druh']
-    genre = row['žánr']
-    subgenre = row['subžánr']
-    note = row['poznámka']
-    first_published = datetime.date(row['rok vydání'], 1, 1)
 
-    instances_objects[id_number] = Instance(id = id_number, work_id = id_number, title = title, author = author, first_published = first_published, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
+
+    instance = Instance(id = id_number, work_id = id_number, title = title, author = author, first_published = first_published, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
 
     if relationship: 
-        instances_objects[id_number].relationship_essence = row['kvalita vazby']
+        instance.relationship_essence = relationship
 
-    return instances_objects
+    return instance
 
+if __name__ == "__main__":
+    first_row = 35
 
-first_row = 35
+    # load pandas
+    df = pd.read_excel('data/Autority děl - Hrabal.xlsx')
 
-# load pandas
-df = pd.read_excel('data/Autority děl - Hrabal.xlsx')
+    df = df.iloc[first_row:]
+    # TODO: multiple horizontal relationship
+    #df['horizontální vazba (= patří do souboru díla)'] = df['horizontální vazba (= patří do souboru díla)'].apply(lambda x: [x] if str(x).isnumeric() else x.split()) 
 
-df = df.iloc[first_row:]
-# TODO: multiple horizontal relationship
-#df['horizontální vazba (= patří do souboru díla)'] = df['horizontální vazba (= patří do souboru díla)'].apply(lambda x: [x] if str(x).isnumeric() else x.split()) 
+    df['číslo záznamu'] = df['číslo záznamu'].apply(lambda x: int(x)) 
+    df['vertikální vazba (=je součást čeho)'] = df['vertikální vazba (=je součást čeho)'].apply(lambda x: None if math.isnan(x) else int(x)) 
+    df['horizontální vazba (= patří do souboru díla)'] = df['horizontální vazba (= patří do souboru díla)'].apply(lambda x: None if math.isnan(x) else int(x)) 
+    df['rok vydání'] = df['rok vydání'].ffill()
 
-df['číslo záznamu'] = df['číslo záznamu'].apply(lambda x: int(x)) 
-df['vertikální vazba (=je součást čeho)'] = df['vertikální vazba (=je součást čeho)'].apply(lambda x: None if math.isnan(x) else int(x)) 
-df['horizontální vazba (= patří do souboru díla)'] = df['horizontální vazba (= patří do souboru díla)'].apply(lambda x: None if math.isnan(x) else int(x)) 
-df['rok vydání'] = df['rok vydání'].ffill()
+    work_objects = {}
+    instances_objects = {}
+    used = set()
 
-work_objects = {}
-instances_objects = {}
-used = set()
-
-try:
 
     for i, row in df.iterrows():
-        
-        horizontal = row['horizontální vazba (= patří do souboru díla)']
-        relationship_essence = row['kvalita vazby'] 
-        vertical = row['vertikální vazba (=je součást čeho)']
-        id_number = row['číslo záznamu']
-
-        # horizontal bond is not present 
-        if horizontal not in used:
             
-            add_work(row, work_objects)
-            add_instance(row, instances_objects, False)
-            print(id_number)
-            used.add(id_number)
-            work_objects[id_number].instances.append(instances_objects[id_number])
-            session.add(work_objects[id_number])
-            session.add(instances_objects[id_number])
-
-        # 
-        elif not pd.isna(relationship_essence):
+            horizontal = row['horizontální vazba (= patří do souboru díla)']
+            relationship_essence = row['kvalita vazby'] 
+            vertical = row['vertikální vazba (=je součást čeho)']
+            id_number = row['číslo záznamu']
             
-            id_number = row['číslo záznamu'] 
-            add_instance(row, instances_objects, True)
-            work_objects[horizontal].instances.append(instances_objects[id_number])
+            
+            # Parameters for classes
+            author = row['autor']
+            title = row['název']
+            id_number = row['číslo záznamu']  
+            art_form = row['umělecký druh']
+            genre = row['žánr']
+            subgenre = row['subžánr']
+            note = row['poznámka']
+            first_published = datetime.date(row['rok vydání'], 1, 1)
+            relationship = row['kvalita vazby']
 
-        else: 
-            id_number = horizontal
+            # horizontal bond is not present 
+            if horizontal not in used:
+                
+                
+                work_object = add_work(author, title, id_number, )
+                work_objects[id_number] = work_object
+                instances_object = add_instance(author = author, title = title, id_number = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=False)
+                instances_objects[id_number] = instances_object
+                print(id_number)
+                used.add(id_number)
+                work_objects[id_number].instances.append(instances_objects[id_number])
+                session.add(work_object)
+                session.add(instances_objects[id_number])
 
-        if vertical is not None:
-            if vertical in instances_objects:
-                instances_association = InstancesHierarchy(is_part_of_id=vertical, has_id=id_number)
-                session.add(instances_association)
+            # 
+            elif not pd.isna(relationship_essence):
+                
+                id_number = row['číslo záznamu'] 
+                instances_object = add_instance(author = author, title = title, id_number = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=relationship)
+                instances_objects[id_number] = instances_object
+                work_objects[horizontal].instances.append(instances_objects[id_number])
+
+            else: 
+                id_number = horizontal
+
+            if vertical is not None:
+                if vertical in instances_objects:
+                    instances_association = InstancesHierarchy(is_part_of_id=vertical, has_id=id_number)
+                    session.add(instances_association)
 
 
-except Exception as error: 
-    print(error)
-finally:
+
     session.commit()
 
     id11 = session.query(Instance).filter_by(id = 1).first()
