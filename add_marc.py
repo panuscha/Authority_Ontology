@@ -129,7 +129,9 @@ with open(database, 'rb') as data:
                                         if genres[instance.genre] == literary_form or genre == instance.genre or literary_form == '-':
                                                 
                                                 found = True 
-                                                trans_instance = add_instance(work_id = work.id, author_name = author_name, author_code = author_code, title = title_trl, genre = genre, art_form= 'literatura', first_published= first_published, relationship=False)
+                                                genre = work.instances[0].genre
+
+                                                trans_instance = add_instance(work_id = work.id, author_name = author_name, author_code = author_code, title = title_trl, genre = genre,  art_form= 'literatura', first_published= first_published, relationship=False)
                                                 trans_instance.relationship_essence = 'překlad'
                                                 work.instances.append(trans_instance)
 
@@ -144,6 +146,8 @@ with open(database, 'rb') as data:
                         elif len(works) == 1:      # TODO: ADD UP-DOWN RELATIONSHIPS TO INSTANCES
                             work = works[0]
 
+                            genre = work.instances[0].genre
+
                             trans_instance = add_instance(work_id = work.id, author_name = author_name, author_code = author_code, title = title_trl, genre = genre, art_form= 'literatura', first_published= first_published, relationship=False)
                             trans_instance.relationship_essence = 'překlad'
                             work.instances.append(trans_instance)
@@ -155,7 +159,7 @@ with open(database, 'rb') as data:
                             session.add(trans_instance)
                         else: # ADD NEW WORK AND INSTANCE 
                             id_number  = int(record['001'].data[2:])
-                            work = add_work(author_name = author_name, author_code = author_code, title = title_trl, id_number = id_number )
+                            work = add_work(author_name = author_name, author_code = author_code, title = title_trl if title_orig is None else title_orig, id_number = id_number )
     
 
                             trans_instance = add_instance(id = id_number, author_name = author_name, author_code = author_code, title = title_trl, genre = genre, art_form= 'literatura', first_published= first_published, relationship=False)
@@ -175,4 +179,16 @@ with open(database, 'rb') as data:
                     print(record)
                 except:
                     print(record)    
-session.commit()                
+session.commit()            
+
+
+"""
+POZN: v originální databázi chybí samizdat, proto se díla v italštině vytváří jako nová díla 
+Některým záznamům chybí původní název 
+Chyba v "I balony mohou vzlétnout" 
+
+
+
+"""
+
+
