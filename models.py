@@ -46,11 +46,12 @@ class Work(Base):
 
     id = Column('id', Integer, primary_key=True,  autoincrement=True)
     original_title = Column('original_title', String)
-    original_author = Column('original_author', String)
+    original_author_name = Column('original_author_name', String)
+    original_author_code = Column('original_author_code', String)
 
     instances = relationship('Instance', back_populates="work")#
 
-    def __init__(self, id, original_title = None, original_author = None):
+    def __init__(self, id, original_title = None, original_author_name = None, original_author_code = None ):
         """Initializes the Work with the provided id, original title (optional), and original author (optional).
 
         Args:
@@ -60,10 +61,11 @@ class Work(Base):
         """
         self.id = id
         self.original_title = original_title
-        self.original_author = original_author
+        self.original_author_name = original_author_name
+        self.original_author_code = original_author_code
 
     def __repr__(self):
-        return f"{self.id} {self.original_title} {self.original_author}"
+        return f"{self.id} {self.original_title} {self.original_author_name}"
         
 # class for work instances         
 class Instance(Base):
@@ -86,7 +88,8 @@ class Instance(Base):
     work_id = Column(Integer, ForeignKey('works.id'))
     
     title = Column('title', String)
-    author = Column('author', String)
+    author_name = Column('author_name', String)
+    author_code = Column('author_code', String)
 
     first_published = Column('first_published', Date) 
     relationship_essence = Column('relationship', String) 
@@ -108,11 +111,12 @@ class Instance(Base):
                         secondaryjoin='InstancesLinks.remade == Instance.id',
                         backref="linked")
 
-    def __init__(self, id , work_id, title = None, author = None, first_published = None, art_form = None, genre = None , sub_genre = None, note = None):
+    def __init__(self, id , work_id, title = None, author_name = None, author_code = None, first_published = None, art_form = None, genre = None , sub_genre = None, note = None):
         self.id  = id 
         self.work_id = work_id
         self.title = title
-        self.author = author
+        self.author_name = author_name
+        self.author_code = author_code
         self.first_published = first_published
         self.art_form = art_form
         self.genre = genre

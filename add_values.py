@@ -2,8 +2,9 @@ from models import Work, Instance, InstancesHierarchy, session
 import pandas as pd 
 import math 
 import datetime
+import re
 
-def add_work(author, title, id_number):
+def add_work(author_name, author_code, title, id_number):
     """Adds Work object to list work_objects
 
         Parameters
@@ -20,10 +21,10 @@ def add_work(author, title, id_number):
             work_objects with new element
         """
     
-    return  Work(id = id_number, original_title = title, original_author = author)
+    return  Work(id = id_number, original_title = title, original_author_name = author_name,  original_author_code = author_code)
 
 
-def add_instance(author = None, title = None, id_number = None , art_form = None, genre = None, subgenre = None, note = None, first_published = None,   relationship = False):
+def add_instance(author_name = None, author_code = None, title = None, work_id = None, id = None , art_form = None, genre = None, subgenre = None, note = None, first_published = None,   relationship = False):
     """Adds WorkInstance object to list instances_objects
 
         Parameters
@@ -44,7 +45,7 @@ def add_instance(author = None, title = None, id_number = None , art_form = None
         """
 
 
-    instance = Instance(id = id_number, work_id = id_number, title = title, author = author, first_published = first_published, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
+    instance = Instance(id = id, work_id = work_id, title = title, author_name = author_name, author_code = author_code, first_published = first_published, art_form=art_form, genre=genre, sub_genre=subgenre, note=note)
 
     if relationship: 
         instance.relationship_essence = relationship
@@ -78,9 +79,15 @@ if __name__ == "__main__":
             vertical = row['vertikální vazba (=je součást čeho)']
             id_number = row['číslo záznamu']
             
+
+            pattern = r'(?P<name>[A-Za-z]+,\s[A-Za-z]+)\s\((?P<code>[a-zA-Z0-9]+)\)'
+            found = re.search(pattern, row['autor'])
+
+            if found:
+                author_name = found.group('name')
+                author_code = found.group('code')
             
             # Parameters for classes
-            author = row['autor']
             title = row['název']
             id_number = row['číslo záznamu']  
             art_form = row['umělecký druh']
@@ -94,9 +101,9 @@ if __name__ == "__main__":
             if horizontal not in used:
                 
                 
-                work_object = add_work(author, title, id_number, )
+                work_object = add_work(author_name, author_code, title, id_number )
                 work_objects[id_number] = work_object
-                instances_object = add_instance(author = author, title = title, id_number = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=False)
+                instances_object = add_instance(author_name = author_name, author_code = author_code, title = title, work_id= id_number, id = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=False)
                 instances_objects[id_number] = instances_object
                 print(id_number)
                 used.add(id_number)
@@ -108,7 +115,7 @@ if __name__ == "__main__":
             elif not pd.isna(relationship_essence):
                 
                 id_number = row['číslo záznamu'] 
-                instances_object = add_instance(author = author, title = title, id_number = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=relationship)
+                instances_object = add_instance(author_name = author_name, author_code = author_code, title = title, work_id= work_objects[horizontal].id, id = id_number, art_form= art_form, genre=genre, subgenre=subgenre, note=note , first_published= first_published,  relationship=relationship)
                 instances_objects[id_number] = instances_object
                 work_objects[horizontal].instances.append(instances_objects[id_number])
 
